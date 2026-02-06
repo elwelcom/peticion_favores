@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="title">Sistema Oficial de Favores 2026™</title>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;700&family=Courier+Prime:wght@400;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Crimson Text', serif;
+            background: linear-gradient(135deg, #e8e8e8 0%, #d0d0d0 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            border: 3px solid #2c3e50;
+            box-shadow: 0 0 30px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        
+        .header {
+            background: #2c3e50;
+            color: #fff;
+            padding: 30px;
+            text-align: center;
+            border-bottom: 5px double #c0392b;
+        }
+        
+        .header h1 {
+            font-size: 2.2em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+        }
+        
+        .header .subtitle {
+            font-family: 'Courier Prime', monospace;
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        
+        .official-seal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 80px;
+            height: 80px;
+            border: 3px solid #c0392b;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7em;
+            text-align: center;
+            color: #c0392b;
+            font-weight: bold;
+            transform: rotate(-15deg);
+            background: rgba(255,255,255,0.9);
+        }
+        
+        /* Language Selector */
+        .language-selector {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+            display: flex;
+            gap: 10px;
+            background: rgba(255,255,255,0.95);
+            padding: 8px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .flag-btn {
+            width: 40px;
+            height: 30px;
+            border: 2px solid transparent;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            overflow: hidden;
+            background: none;
+            padding: 0;
+        }
+        
+        .flag-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .flag-btn.active {
+            border-color: #2c3e50;
+            box-shadow: 0 0 8px rgba(44,62,80,0.5);
+        }
+        
+        .flag-btn img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .form-section {
+            padding: 40px;
+            background: #fafafa;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+            padding: 20px;
+            border: 2px solid #bdc3c7;
+            background: #fff;
+            position: relative;
+        }
+        
+        .form-group::before {
+            content: attr(data-section);
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: #fff;
+            padding: 0 10px;
+            font-size: 0.8em;
+            font-weight: bold;
+            color: #7f8c8d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 700;
+            color: #2c3e50;
+            font-size: 1.1em;
+        }
+        
+        input[type="text"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #95a5a6;
+            font-family: 'Courier Prime', monospace;
+            font-size: 1em;
+            background: #f8f9fa;
+        }
+        
+        input[type="text"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #2c3e50;
+            background: #fff;
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .checkbox-group {
+            margin-top: 15px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            padding: 10px;
+            background: #f0f0f0;
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            margin-right: 12px;
+            margin-top: 3px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        
+        .checkbox-item label {
+            margin: 0;
+            font-weight: 400;
+            cursor: pointer;
+            font-size: 0.95em;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: #27ae60;
+            color: #fff;
+            border: none;
+            font-size: 1.3em;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 3px solid #1e8449;
+        }
+        
+        .submit-btn:hover {
+            background: #229954;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .submit-btn:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .points-section {
+            background: #2c3e50;
+            color: #fff;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 3px solid #c0392b;
+        }
+        
+        .points-display {
+            font-family: 'Courier Prime', monospace;
+            font-size: 1.5em;
+        }
+        
+        .points-display span {
+            color: #f1c40f;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+        
+        .watch-ad-btn {
+            padding: 12px 30px;
+            background: #e74c3c;
+            color: #fff;
+            border: none;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+        
+        .watch-ad-btn:hover {
+            background: #c0392b;
+            transform: scale(1.05);
+        }
+        
+        /* Lightbox Styles */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .lightbox.active {
+            display: flex;
+        }
+        
+        .lightbox-content {
+            background: #fff;
+            max-width: 700px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 5px solid #2c3e50;
+            position: relative;
+        }
+        
+        .lightbox-header {
+            background: #c0392b;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 3px solid #2c3e50;
+        }
+        
+        .lightbox-header h2 {
+            font-size: 1.5em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .lightbox-body {
+            padding: 30px;
+            font-size: 0.95em;
+            line-height: 1.8;
+        }
+        
+        .lightbox-body p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        
+        .lightbox-footer {
+            padding: 20px 30px;
+            background: #ecf0f1;
+            border-top: 2px solid #bdc3c7;
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+        }
+        
+        .btn-primary {
+            padding: 12px 30px;
+            background: #27ae60;
+            color: #fff;
+            border: none;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+        
+        .btn-secondary {
+            padding: 12px 30px;
+            background: #95a5a6;
+            color: #fff;
+            border: none;
+            font-size: 1em;
+            cursor: pointer;
+        }
+        
+        .btn-primary:hover {
+            background: #229954;
+        }
+        
+        .ad-container {
+            position: relative;
+            padding: 20px;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .ad-timer {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #e74c3c;
+            color: #fff;
+            padding: 8px 15px;
+            font-family: 'Courier Prime', monospace;
+            font-weight: bold;
+            font-size: 1.2em;
+            z-index: 10;
+        }
+        
+        .ad-video {
+            width: 100%;
+            aspect-ratio: 16/9;
+            max-height: 60vh;
+            background: #000;
+        }
+        
+        .ad-video iframe {
+            width: 100%;
+            height: 100%;
+        }
+
+        .ad-video img.ad-gif {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            max-height: 50vh;
+        }
+        
+        .warning-box {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .warning-box::before {
+            content: "⚠️";
+            font-size: 2em;
+        }
+        
+        .document-number {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-family: 'Courier Prime', monospace;
+            font-size: 0.7em;
+            color: #7f8c8d;
+        }
+        
+        .footer-note {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.8em;
+            color: #7f8c8d;
+            border-top: 1px solid #bdc3c7;
+            font-family: 'Courier Prime', monospace;
+        }
+
+        .zero-points-warning {
+            background: #e74c3c;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+            font-weight: bold;
+            display: none;
+        }
+
+        .zero-points-warning.active {
+            display: block;
+        }
+
+        .not-configured-warning {
+            background: #e74c3c;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .not-configured-warning a {
+            color: #fff;
+            text-decoration: underline;
+            font-weight: bold;
+        }
+
+
+    </style>
+</head>
+<body>
+    <!-- Language Selector -->
+    <div class="language-selector">
+        <button class="flag-btn active" onclick="changeLanguage('es')" title="Español">
+            <svg viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg">
+                <rect width="60" height="40" fill="#AA151B"/>
+                <rect y="10" width="60" height="20" fill="#F1BF00"/>
+                <rect y="30" width="60" height="10" fill="#AA151B"/>
+            </svg>
+        </button>
+        <button class="flag-btn" onclick="changeLanguage('en')" title="English">
+            <svg viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg">
+                <rect width="60" height="40" fill="#012169"/>
+                <path d="M0,0 L60,40 M60,0 L0,40" stroke="#fff" stroke-width="6"/>
+                <path d="M0,0 L60,40 M60,0 L0,40" stroke="#C8102E" stroke-width="4"/>
+                <path d="M30,0 L30,40 M0,20 L60,20" stroke="#fff" stroke-width="10"/>
+                <path d="M30,0 L30,40 M0,20 L60,20" stroke="#C8102E" stroke-width="6"/>
+            </svg>
+        </button>
+    </div>
+
+    <div class="container">
+        <div class="document-number">DOC-Nº: <span id="docNumber"></span></div>
+        
+        <div class="official-seal" data-i18n="official_seal">
+            OFICIAL<br>2026
+        </div>
+        
+        <header class="header">
+            <h1 data-i18n="header_title">Sistema Oficial de Favores 2026™</h1>
+            <div class="subtitle" data-i18n="header_subtitle">Ministerio de Gestión Interpersonal y Relaciones Laborales Absurdas</div>
+        </header>
+        
+        <div class="zero-points-warning" id="zeroPointsWarning" data-i18n="zero_points_warning">
+            ⚠️ ATENCIÓN: No dispone de puntos de favor. Debe ver publicidad para ganar al menos 1 punto antes de continuar.
+        </div>
+
+        <div class="not-configured-warning" id="notConfiguredWarning" style="display: none;">
+            <span data-i18n="not_configured_line1">⚠️ SISTEMA NO CONFIGURADO: Este formulario está en modo demostración. Las solicitudes no se enviarán por email.</span><br>
+            <small data-i18n="not_configured_line2">Para activar el envío de emails, el administrador debe configurar el sistema primero.</small><br>
+            <a href="admin.html" data-i18n="not_configured_link">Ir a Panel de Administración →</a>
+        </div>
+        
+        <section class="points-section">
+            <div class="points-display">
+                <span data-i18n="points_label">Banco de Puntos de Favor:</span> <span id="pointsDisplay">0</span> pts
+            </div>
+            <button class="watch-ad-btn" id="watchAdBtn" onclick="openAdLightbox()" data-i18n="watch_ad_btn">
+                Ver Publicidad (+1 punto)
+            </button>
+        </section>
+        
+        <section class="form-section">
+            <form id="favorForm" method="POST" onsubmit="return validateAndPrepareForm(event)">
+                <!-- Campos ocultos para FormSubmit.co -->
+                <input type="hidden" name="_subject" value="Nueva solicitud de favor - Sistema Oficial 2026">
+                <input type="hidden" name="_template" value="table">
+                <input type="hidden" name="_next" id="nextPageUrl" value="">
+
+                <div class="form-group" data-section="Sección A - Identificación" data-i18n-attr="data-section" data-i18n="section_a">
+                    <label for="solicitante" data-i18n="label_name">1. Nombre completo del solicitante (como aparece en el DNI, pasaporte, tarjeta de biblioteca y carnet de súper):</label>
+                    <input type="text" id="solicitante" name="solicitante" required placeholder="Ej: Juan García Martínez, alias 'El que siempre pide favores'" data-i18n-attr="placeholder" data-i18n="placeholder_name">
+                </div>
+                
+                <div class="form-group" data-section="Sección B - Descripción" data-i18n-attr="data-section" data-i18n="section_b">
+                    <label for="favor" data-i18n="label_favor">2. Naturaleza y alcance del favor solicitado (sea específico, vaguez no será tolerada):</label>
+                    <textarea id="favor" name="favor" required placeholder="Ej: Necesito que me cubras el viernes porque me ha dado un ataque de pereza aguda..." data-i18n-attr="placeholder" data-i18n="placeholder_favor"></textarea>
+                </div>
+                
+                <div class="form-group" data-section="Sección C - Temporalidad" data-i18n-attr="data-section" data-i18n="section_c">
+                    <label for="urgencia" data-i18n="label_urgency">3. Nivel de urgencia temporal (seleccione la opción que mejor describa su irresponsabilidad):</label>
+                    <select id="urgencia" name="urgencia" required>
+                        <option value="" data-i18n="urgency_select">-- Seleccione una opción --</option>
+                        <option value="ahora" data-i18n="urgency_now">AHORA MISMO (debería haberlo pensado antes)</option>
+                        <option value="ayer" data-i18n="urgency_yesterday">AYER (viaje en el tiempo no incluido)</option>
+                        <option value="5min" data-i18n="urgency_5min">En 5 minutos (estoy desesperado)</option>
+                        <option value="hoy" data-i18n="urgency_today">HOY (tengo prioridades confusas)</option>
+                        <option value="manana" data-i18n="urgency_tomorrow">Mañana (aún puedo aplazarlo más)</option>
+                        <option value="nunca" data-i18n="urgency_never">Nunca (solo quería molestar)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group" data-section="Sección D - Compromisos Legales" data-i18n-attr="data-section" data-i18n="section_d">
+                    <label data-i18n="label_commitments">4. Declaraciones juradas y renuncias de derechos (obligatorio):</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="chantaje" name="chantaje" required>
+                            <label for="chantaje" data-i18n="checkbox_blackmail">Acepto que el prestador del favor pueda chantajearme con este incidente indefinidamente, incluyendo pero no limitado a: recordármelo en reuniones familiares, mencionarlo en mi boda, usarlo como excusa para no devolverme el dinero prestado.</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="culpa" name="culpa" required>
+                            <label for="culpa" data-i18n="checkbox_blame">Me comprometo solemnemente a que, si el favor sale mal por cualquier razón (incluyendo negligencia del prestador, fuerza mayor, o alineación de planetas), la culpa será exclusivamente mía y asumiré todas las consecuencias legales, morales y kármicas.</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="gratitud" name="gratitud" required>
+                            <label for="gratitud" data-i18n="checkbox_gratitude">Entiendo que la gratitud eterna no es suficiente pago por este favor y que deberé ofrecer mi primera hija/o en sacrificio... o al menos invitar a café.</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="submit" class="submit-btn" id="submitBtn" disabled data-i18n="submit_btn_disabled">
+                    ENVIAR SOLICITUD OFICIAL (Requiere 1 punto)
+                </button>
+            </form>
+        </section>
+        
+        <div class="footer-note" data-i18n="footer">
+            Documento generado automáticamente por el Sistema Oficial de Favores 2026™ | 
+            No válido para uso en universidades ni durante horario de siesta | 
+            Patente en trámite | 
+            © 2026 Ministerio de Favores Absurdos
+        </div>
+    </div>
+    
+    <!-- Lightbox de Cookies/Términos -->
+    <div class="lightbox active" id="cookieLightbox">
+        <div class="lightbox-content">
+            <div class="lightbox-header">
+                <h2 data-i18n="cookie_title">🔒 AVISO LEGAL OBLIGATORIO DE PRIVACIDAD EXTREMA 🔒</h2>
+            </div>
+            <div class="lightbox-body">
+                <div class="warning-box">
+                    <div>
+                        <strong data-i18n="cookie_warning_title">IMPORTANTE:</strong>
+                        <span data-i18n="cookie_warning_text"> Al usar este sistema, usted acepta términos que ni siquiera nosotros hemos leído completamente.</span>
+                    </div>
+                </div>
+                
+                <p><strong data-i18n="cookie_p1_title">PÁRRAFO I - La Clausula de los Datos:</strong> <span data-i18n="cookie_p1_text">Por la presente, usted autoriza irrevocablemente a nuestra empresa, sus subsidiarias, filiales, parientes lejanos, mascotas y plantas de interior a recopilar, procesar, analizar, vender, subastar, intercambiar por caramelos y publicar en todas las redes sociales conocidas y por conocer (incluyendo MySpace, Friendster y aquella red social que solo existe en una dimensión paralela) toda la información que usted ingrese en este formulario, sus hábitos de navegación, su color favorito, su canción más escuchada en Spotify, y aquella vez que buscó "¿por qué mi gato me mira raro?" a las 3 de la mañana.</span></p>
+                
+                <p><strong data-i18n="cookie_p2_title">PÁRRAFO II - La Venta Internacional:</strong> <span data-i18n="cookie_p2_text">Sus datos personales serán vendidos a compradores en al menos 47 países diferentes, incluyendo pero no limitado a: Narnia, el País de Nunca Jamás, la Comarca, Atlantis (ahora bajo el agua, pero muy interesada en datos personales), y ese pueblo pequeño de Wisconsin donde todo el mundo se llama Johnson. El precio de venta oscilará entre 0.03¢ y un paquete de galletas maría, dependiendo de la calidad de su información.</span></p>
+                
+                <p><strong data-i18n="cookie_p3_title">PÁRRAFO III - El Rastreo Permanente:</strong> <span data-i18n="cookie_p3_text">Instalaremos cookies en su dispositivo que no solo rastrearán su actividad online, sino que también le enviarán notificaciones push cada vez que alguien en el mundo busque "gatos graciosos", le cambiarán el fondo de pantalla sin su permiso, y occasionalmente harán que su teclado escriba en wingdings. Acepta también que podemos usar su cámara web para verificar que realmente está usando ropa mientras completa este formulario.</span></p>
+                
+                <p><strong data-i18n="cookie_p4_title">PÁRRAFO IV - Los Derechos Renunciados:</strong> <span data-i18n="cookie_p4_text">Usted renuncia expresamente a cualquier derecho de privacidad garantizado por la Constitución, la Declaración Universal de Derechos Humanos, la Convención de Ginebra, y esa vez que su abuela le dijo "no le cuentes tus secretos a extraños". También acepta que podemos compartir su historial de favoritos de YouTube con su jefe, su ex, y ese compañero de trabajo que siempre le cae mal.</span></p>
+                
+                <p><strong data-i18n="cookie_p5_title">PÁRRAFO V - La Eternidad del Acuerdo:</strong> <span data-i18n="cookie_p5_text">Este acuerdo es válido por toda la eternidad, incluyendo vidas pasadas y futuras. Si reencarna como una mariposa, un robot, o una entidad cósmica de energía pura, seguiremos teniendo derecho a vender sus datos a otras entidades cósmicas de energía pura. Para cancelar esta suscripción, debe enviar una carta escrita a mano con sangre de dragón a nuestras oficinas en el Monte Everest, códigos de acceso 1234.</span></p>
+                
+                <p style="margin-top: 20px; font-size: 0.85em; color: #7f8c8d; font-style: italic;" data-i18n="cookie_note">
+                    * Nota: Esto es obviamente una broma. No vendemos sus datos. De hecho, ni siquiera los guardamos. Todo se pierde cuando cierra la pestaña. Pero qué divertido es leer esto, ¿verdad?
+                </p>
+            </div>
+            <div class="lightbox-footer">
+                <button class="btn-primary" onclick="acceptCookies()" data-i18n="cookie_accept_btn">ACEPTO TODO LO ANTERIOR (No tengo elección)</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Lightbox de Publicidad -->
+    <div class="lightbox" id="adLightbox">
+        <div class="lightbox-content" style="max-width: 900px;">
+            <div class="lightbox-header">
+                <h2 data-i18n="ad_title">📺 PUBLICIDAD OFICIAL PATROCINADA 📺</h2>
+            </div>
+            <div class="ad-container">
+                <div class="ad-timer" id="adTimer">5</div>
+                <div class="ad-video">
+                    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNm9za3drdjZnMDl1MDh6OXV4YWQ4bHdrNGY1MDY1NmtzaG51YW1iOSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/SFzWe9H9Obj3yktRPb/giphy.gif" alt="Publicidad Oficial" class="ad-gif">
+                </div>
+            </div>
+            <div class="lightbox-body">
+                <p style="text-align: center; font-size: 1.1em;">
+                    <strong data-i18n="ad_watching">Viendo publicidad oficial del Ministerio...</strong><br>
+                    <span data-i18n="ad_wait">Espere</span> <span id="timerText">5</span> <span data-i18n="ad_seconds">segundos para ganar su punto de favor.</span>
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Lightbox de Sin Puntos -->
+    <div class="lightbox" id="noPointsLightbox">
+        <div class="lightbox-content">
+            <div class="lightbox-header" style="background: #e74c3c;">
+                <h2 data-i18n="no_points_title">⛔ ACCESO DENEGADO ⛔</h2>
+            </div>
+            <div class="lightbox-body">
+                <div class="warning-box" style="border-color: #e74c2c; background: #fadbd8;">
+                    <div>
+                        <strong data-i18n="no_points_balance">SALDO INSUFICIENTE</strong><br>
+                        <span data-i18n="no_points_zero">Su cuenta de puntos de favor se encuentra en 0 (cero).</span>
+                    </div>
+                </div>
+                <p data-i18n="no_points_dear">Estimado usuario del Sistema Oficial de Favores 2026™:</p>
+                <p><span data-i18n="no_points_inform">Le informamos que no puede enviar solicitudes de favor sin disponer de al menos</span> <strong data-i18n="no_points_requirement">1 (un) punto de favor</strong> <span data-i18n="no_points_account">en su cuenta.</span></p>
+                <p><span data-i18n="no_points_acquire">Para adquirir puntos de favor, debe ver nuestro contenido publicitario oficial. Cada visualización de 5 segundos le otorgará 1 (un) punto de favor.</span></p>
+                <p><strong data-i18n="no_points_note_title">Nota importante:</strong> <span data-i18n="no_points_note_text">Los puntos de favor no tienen valor monetario, no son transferibles, no son reembolsables, y probablemente no sirvan para nada, pero son necesarios para mantener esta farsa burocrática.</span></p>
+            </div>
+            <div class="lightbox-footer">
+                <button class="btn-primary" onclick="closeNoPointsAndOpenAd()" data-i18n="watch_ad_now">VER PUBLICIDAD AHORA</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Lightbox de éxito -->
+    <div class="lightbox" id="successLightbox">
+        <div class="lightbox-content">
+            <div class="lightbox-header" style="background: #27ae60;">
+                <h2 data-i18n="success_title">✅ SOLICITUD ENVIADA ✅</h2>
+            </div>
+            <div class="lightbox-body" style="text-align: center;">
+                <p style="font-size: 1.5em; margin-bottom: 20px;" data-i18n="success_email_sent">
+                    ✓ Email enviado correctamente
+                </p>
+                <p data-i18n="success_request_sent">Tu solicitud de favor ha sido enviada al administrator.</p>
+                <p><strong data-i18n="success_expedient">Número de expediente:</strong> <span id="expedienteNum"></span></p>
+                <p style="margin-top: 20px; padding: 15px; background: #e8f8f5; border-left: 4px solid #27ae60;" data-i18n="success_note">
+                    <strong>Nota:</strong> Se ha descontado 1 punto de su cuenta. Gracias por usar el Sistema Oficial de Favores 2026™.
+                </p>
+            </div>
+            <div class="lightbox-footer">
+                <button class="btn-primary" onclick="closeSuccessLightbox()" data-i18n="understood">ENTENDIDO</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lightbox de enviando -->
+    <div class="lightbox" id="sendingLightbox">
+        <div class="lightbox-content" style="max-width: 400px; text-align: center;">
+            <div class="lightbox-header" style="background: #3498db;">
+                <h2 data-i18n="sending_title">📤 ENVIANDO SOLICITUD...</h2>
+            </div>
+            <div class="lightbox-body">
+                <div style="font-size: 3em; margin: 20px 0;">⏳</div>
+                <p data-i18n="sending_text">Tu solicitud está siendo enviada...</p>
+                <p style="font-size: 0.9em; color: #666; margin-top: 15px;" data-i18n="sending_wait">Por favor espera un momento.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // SISTEMA DE INTERNACIONALIZACIÓN (i18n)
+        // ============================================
+        
+        const translations = {
+            es: {
+                title: "Sistema Oficial de Favores 2026™",
+                official_seal: "OFICIAL<BR>2026",
+                header_title: "Sistema Oficial de Favores 2026™",
+                header_subtitle: "Ministerio de Gestión Interpersonal y Relaciones Laborales Absurdas",
+                zero_points_warning: "⚠️ ATENCIÓN: No dispone de puntos de favor. Debe ver publicidad para ganar al menos 1 punto antes de continuar.",
+                not_configured_line1: "⚠️ SISTEMA NO CONFIGURADO: Este formulario está en modo demostración. Las solicitudes no se enviarán por email.",
+                not_configured_line2: "Para activar el envío de emails, el administrador debe configurar el sistema primero.",
+                not_configured_link: "Ir a Panel de Administración →",
+                points_label: "Banco de Puntos de Favor:",
+                watch_ad_btn: "Ver Publicidad (+1 punto)",
+                section_a: "Sección A - Identificación",
+                label_name: "1. Nombre completo del solicitante (como aparece en el DNI, pasaporte, tarjeta de biblioteca y carnet de súper):",
+                placeholder_name: "Ej: Juan García Martínez, alias 'El que siempre pide favores'",
+                section_b: "Sección B - Descripción",
+                label_favor: "2. Naturaleza y alcance del favor solicitado (sea específico, vaguez no será tolerada):",
+                placeholder_favor: "Ej: Necesito que me cubras el viernes porque me ha dado un ataque de pereza aguda...",
+                section_c: "Sección C - Temporalidad",
+                label_urgency: "3. Nivel de urgencia temporal (seleccione la opción que mejor describa su irresponsabilidad):",
+                urgency_select: "-- Seleccione una opción --",
+                urgency_now: "AHORA MISMO (debería haberlo pensado antes)",
+                urgency_yesterday: "AYER (viaje en el tiempo no incluido)",
+                urgency_5min: "En 5 minutos (estoy desesperado)",
+                urgency_today: "HOY (tengo prioridades confusas)",
+                urgency_tomorrow: "Mañana (aún puedo aplazarlo más)",
+                urgency_never: "Nunca (solo quería molestar)",
+                section_d: "Sección D - Compromisos Legales",
+                label_commitments: "4. Declaraciones juradas y renuncias de derechos (obligatorio):",
+                checkbox_blackmail: "Acepto que el prestador del favor pueda chantajearme con este incidente indefinidamente, incluyendo pero no limitado a: recordármelo en reuniones familiares, mencionarlo en mi boda, usarlo como excusa para no devolverme el dinero prestado.",
+                checkbox_blame: "Me comprometo solemnemente a que, si el favor sale mal por cualquier razón (incluyendo negligencia del prestador, fuerza mayor, o alineación de planetas), la culpa será exclusivamente mía y asumiré todas las consecuencias legales, morales y kármicas.",
+                checkbox_gratitude: "Entiendo que la gratitud eterna no es suficiente pago por este favor y que deberé ofrecer mi primera hija/o en sacrificio... o al menos invitar a café.",
+                submit_btn_disabled: "ENVIAR SOLICITUD OFICIAL (Requiere 1 punto)",
+                submit_btn_enabled: "ENVIAR SOLICITUD OFICIAL",
+                footer: "Documento generado automáticamente por el Sistema Oficial de Favores 2026™ | No válido para uso en universidades ni durante horario de siesta | Patente en trámite | © 2026 Ministerio de Favores Absurdos",
+                cookie_title: "🔒 AVISO LEGAL OBLIGATORIO DE PRIVACIDAD EXTREMA 🔒",
+                cookie_warning_title: "IMPORTANTE:",
+                cookie_warning_text: " Al usar este sistema, usted acepta términos que ni siquiera nosotros hemos leído completamente.",
+                cookie_p1_title: "PÁRRAFO I - La Clausula de los Datos:",
+                cookie_p1_text: "Por la presente, usted autoriza irrevocablemente a nuestra empresa, sus subsidiarias, filiales, parientes lejanos, mascotas y plantas de interior a recopilar, procesar, analizar, vender, subastar, intercambiar por caramelos y publicar en todas las redes sociales conocidas y por conocer (incluyendo MySpace, Friendster y aquella red social que solo existe en una dimensión paralela) toda la información que usted ingrese en este formulario, sus hábitos de navegación, su color favorito, su canción más escuchada en Spotify, y aquella vez que buscó \"¿por qué mi gato me mira raro?\" a las 3 de la mañana.",
+                cookie_p2_title: "PÁRRAFO II - La Venta Internacional:",
+                cookie_p2_text: "Sus datos personales serán vendidos a compradores en al menos 47 países diferentes, incluyendo pero no limitado a: Narnia, el País de Nunca Jamás, la Comarca, Atlantis (ahora bajo el agua, pero muy interesada en datos personales), y ese pueblo pequeño de Wisconsin donde todo el mundo se llama Johnson. El precio de venta oscilará entre 0.03¢ y un paquete de galletas maría, dependiendo de la calidad de su información.",
+                cookie_p3_title: "PÁRRAFO III - El Rastreo Permanente:",
+                cookie_p3_text: "Instalaremos cookies en su dispositivo que no solo rastrearán su actividad online, sino que también le enviarán notificaciones push cada vez que alguien en el mundo busque \"gatos graciosos\", le cambiarán el fondo de pantalla sin su permiso, y occasionalmente harán que su teclado escriba en wingdings. Acepta también que podemos usar su cámara web para verificar que realmente está usando ropa mientras completa este formulario.",
+                cookie_p4_title: "PÁRRAFO IV - Los Derechos Renunciados:",
+                cookie_p4_text: "Usted renuncia expresamente a cualquier derecho de privacidad garantizado por la Constitución, la Declaración Universal de Derechos Humanos, la Convención de Ginebra, y esa vez que su abuela le dijo \"no le cuentes tus secretos a extraños\". También acepta que podemos compartir su historial de favoritos de YouTube con su jefe, su ex, y ese compañero de trabajo que siempre le cae mal.",
+                cookie_p5_title: "PÁRRAFO V - La Eternidad del Acuerdo:",
+                cookie_p5_text: "Este acuerdo es válido por toda la eternidad, incluyendo vidas pasadas y futuras. Si reencarna como una mariposa, un robot, o una entidad cósmica de energía pura, seguiremos teniendo derecho a vender sus datos a otras entidades cósmicas de energía pura. Para cancelar esta suscripción, debe enviar una carta escrita a mano con sangre de dragón a nuestras oficinas en el Monte Everest, códigos de acceso 1234.",
+                cookie_note: "* Nota: Esto es obviamente una broma. No vendemos sus datos. De hecho, ni siquiera los guardamos. Todo se pierde cuando cierra la pestaña. Pero qué divertido es leer esto, ¿verdad?",
+                cookie_accept_btn: "ACEPTO TODO LO ANTERIOR (No tengo elección)",
+                ad_title: "📺 PUBLICIDAD OFICIAL PATROCINADA 📺",
+                ad_watching: "Viendo publicidad oficial del Ministerio...",
+                ad_wait: "Espere",
+                ad_seconds: "segundos para ganar su punto de favor.",
+                ad_congrats: "¡Felicidades! Ha ganado 1 punto de favor.\\nTotal acumulado: {points} puntos.",
+                no_points_title: "⛔ ACCESO DENEGADO ⛔",
+                no_points_balance: "SALDO INSUFICIENTE",
+                no_points_zero: "Su cuenta de puntos de favor se encuentra en 0 (cero).",
+                no_points_dear: "Estimado usuario del Sistema Oficial de Favores 2026™:",
+                no_points_inform: "Le informamos que no puede enviar solicitudes de favor sin disponer de al menos",
+                no_points_requirement: "1 (un) punto de favor",
+                no_points_account: "en su cuenta.",
+                no_points_acquire: "Para adquirir puntos de favor, debe ver nuestro contenido publicitario oficial. Cada visualización de 5 segundos le otorgará 1 (un) punto de favor.",
+                no_points_note_title: "Nota importante:",
+                no_points_note_text: "Los puntos de favor no tienen valor monetario, no son transferibles, no son reembolsables, y probablemente no sirvan para nada, pero son necesarios para mantener esta farsa burocrática.",
+                watch_ad_now: "VER PUBLICIDAD AHORA",
+                success_title: "✅ SOLICITUD ENVIADA ✅",
+                success_email_sent: "✓ Email enviado correctamente",
+                success_request_sent: "Tu solicitud de favor ha sido enviada al administrator.",
+                success_expedient: "Número de expediente:",
+                success_note: "<strong>Nota:</strong> Se ha descontado 1 punto de su cuenta. Gracias por usar el Sistema Oficial de Favores 2026™.",
+                understood: "ENTENDIDO",
+                sending_title: "📤 ENVIANDO SOLICITUD...",
+                sending_text: "Tu solicitud está siendo enviada...",
+                sending_wait: "Por favor espera un momento.",
+                link_copied: "¡Enlace copiado al portapapeles!",
+                link_copy_manual: "Texto seleccionado. Presiona Ctrl+C para copiarlo."
+            },
+            en: {
+                title: "Official Favor Request System 2026™",
+                official_seal: "OFFICIAL<BR>2026",
+                header_title: "Official Favor Request System 2026™",
+                header_subtitle: "Ministry of Interpersonal Management and Absurd Workplace Relations",
+                zero_points_warning: "⚠️ ATTENTION: You have no favor points. You must watch advertising to earn at least 1 point before continuing.",
+                not_configured_line1: "⚠️ SYSTEM NOT CONFIGURED: This form is in demo mode. Requests will not be sent by email.",
+                not_configured_line2: "To activate email delivery, the administrator must configure the system first.",
+                not_configured_link: "Go to Admin Panel →",
+                points_label: "Favor Points Bank:",
+                watch_ad_btn: "Watch Ad (+1 point)",
+                section_a: "Section A - Identification",
+                label_name: "1. Applicant's full name (as it appears on ID, passport, library card, and supermarket membership):",
+                placeholder_name: "Ex: John Garcia Martinez, alias 'The one who always asks for favors'",
+                section_b: "Section B - Description",
+                label_favor: "2. Nature and scope of the requested favor (be specific, vagueness will not be tolerated):",
+                placeholder_favor: "Ex: I need you to cover for me on Friday because I had an acute attack of laziness...",
+                section_c: "Section C - Urgency",
+                label_urgency: "3. Level of temporal urgency (select the option that best describes your irresponsibility):",
+                urgency_select: "-- Select an option --",
+                urgency_now: "RIGHT NOW (should have thought about it before)",
+                urgency_yesterday: "YESTERDAY (time travel not included)",
+                urgency_5min: "In 5 minutes (I'm desperate)",
+                urgency_today: "TODAY (I have confused priorities)",
+                urgency_tomorrow: "Tomorrow (I can still procrastinate more)",
+                urgency_never: "Never (just wanted to bother you)",
+                section_d: "Section D - Legal Commitments",
+                label_commitments: "4. Sworn statements and waivers of rights (mandatory):",
+                checkbox_blackmail: "I accept that the favor provider may blackmail me with this incident indefinitely, including but not limited to: reminding me at family gatherings, mentioning it at my wedding, using it as an excuse not to return my borrowed money.",
+                checkbox_blame: "I solemnly commit that if the favor goes wrong for any reason (including provider negligence, force majeure, or planetary alignment), the blame will be exclusively mine and I will assume all legal, moral, and karmic consequences.",
+                checkbox_gratitude: "I understand that eternal gratitude is not sufficient payment for this favor and that I should offer my firstborn in sacrifice... or at least buy coffee.",
+                submit_btn_disabled: "SEND OFFICIAL REQUEST (Requires 1 point)",
+                submit_btn_enabled: "SEND OFFICIAL REQUEST",
+                footer: "Document automatically generated by the Official Favor System 2026™ | Not valid for use in universities or during nap time | Patent pending | © 2026 Ministry of Absurd Favors",
+                cookie_title: "🔒 EXTREME PRIVACY MANDATORY LEGAL NOTICE 🔒",
+                cookie_warning_title: "IMPORTANT:",
+                cookie_warning_text: " By using this system, you accept terms that we haven't even fully read ourselves.",
+                cookie_p1_title: "PARAGRAPH I - The Data Clause:",
+                cookie_p1_text: "By this document, you irrevocably authorize our company, its subsidiaries, affiliates, distant relatives, pets, and houseplants to collect, process, analyze, sell, auction, trade for candy, and publish on all known and yet-to-be-known social networks (including MySpace, Friendster, and that social network that only exists in a parallel dimension) all the information you enter in this form, your browsing habits, your favorite color, your most played song on Spotify, and that time you searched \"why does my cat stare at me weird?\" at 3 AM.",
+                cookie_p2_title: "PARAGRAPH II - The International Sale:",
+                cookie_p2_text: "Your personal data will be sold to buyers in at least 47 different countries, including but not limited to: Narnia, Neverland, the Shire, Atlantis (now underwater, but very interested in personal data), and that small town in Wisconsin where everyone is named Johnson. The sale price will range from 0.03¢ to a package of Maria cookies, depending on the quality of your information.",
+                cookie_p3_title: "PARAGRAPH III - The Permanent Tracking:",
+                cookie_p3_text: "We will install cookies on your device that will not only track your online activity but also send you push notifications every time someone in the world searches \"funny cats\", change your wallpaper without permission, and occasionally make your keyboard type in wingdings. You also accept that we can use your webcam to verify that you are actually wearing clothes while completing this form.",
+                cookie_p4_title: "PARAGRAPH IV - The Rights Waived:",
+                cookie_p4_text: "You expressly waive any privacy rights guaranteed by the Constitution, the Universal Declaration of Human Rights, the Geneva Convention, and that time your grandmother told you \"don't tell your secrets to strangers\". You also accept that we can share your YouTube favorites history with your boss, your ex, and that coworker you always dislike.",
+                cookie_p5_title: "PARAGRAPH V - The Eternity of the Agreement:",
+                cookie_p5_text: "This agreement is valid for all eternity, including past and future lives. If you reincarnate as a butterfly, a robot, or a cosmic entity of pure energy, we will still have the right to sell your data to other cosmic entities of pure energy. To cancel this subscription, you must send a handwritten letter with dragon blood to our offices on Mount Everest, access code 1234.",
+                cookie_note: "* Note: This is obviously a joke. We don't sell your data. In fact, we don't even store it. Everything is lost when you close the tab. But isn't it fun to read this?",
+                cookie_accept_btn: "I ACCEPT ALL OF THE ABOVE (I have no choice)",
+                ad_title: "📺 OFFICIAL SPONSORED ADVERTISING 📺",
+                ad_watching: "Watching official Ministry advertising...",
+                ad_wait: "Wait",
+                ad_seconds: "seconds to earn your favor point.",
+                ad_congrats: "Congratulations! You earned 1 favor point.\\nTotal accumulated: {points} points.",
+                no_points_title: "⛔ ACCESS DENIED ⛔",
+                no_points_balance: "INSUFFICIENT BALANCE",
+                no_points_zero: "Your favor points account is at 0 (zero).",
+                no_points_dear: "Dear user of the Official Favor System 2026™:",
+                no_points_inform: "We inform you that you cannot send favor requests without having at least",
+                no_points_requirement: "1 (one) favor point",
+                no_points_account: "in your account.",
+                no_points_acquire: "To acquire favor points, you must watch our official advertising content. Each 5-second viewing will grant you 1 (one) favor point.",
+                no_points_note_title: "Important note:",
+                no_points_note_text: "Favor points have no monetary value, are not transferable, are not refundable, and probably serve no purpose, but are necessary to maintain this bureaucratic farce.",
+                watch_ad_now: "WATCH AD NOW",
+                success_title: "✅ REQUEST SENT ✅",
+                success_email_sent: "✓ Email sent successfully",
+                success_request_sent: "Your favor request has been sent to the administrator.",
+                success_expedient: "File number:",
+                success_note: "<strong>Note:</strong> 1 point has been deducted from your account. Thank you for using the Official Favor System 2026™.",
+                understood: "UNDERSTOOD",
+                sending_title: "📤 SENDING REQUEST...",
+                sending_text: "Your request is being sent...",
+                sending_wait: "Please wait a moment.",
+                link_copied: "Link copied to clipboard!",
+                link_copy_manual: "Text selected. Press Ctrl+C to copy it."
+            }
+        };
+
+        let currentLang = localStorage.getItem('favorSystemLanguage') || 'es';
+
+        function changeLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('favorSystemLanguage', lang);
+            
+            // Update flag buttons
+            document.querySelectorAll('.flag-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.closest('.flag-btn').classList.add('active');
+            
+            // Update all elements with data-i18n attribute
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    const attr = element.getAttribute('data-i18n-attr');
+                    if (attr) {
+                        element.setAttribute(attr, translations[lang][key]);
+                    } else if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                        element.placeholder = translations[lang][key];
+                    } else {
+                        element.innerHTML = translations[lang][key];
+                    }
+                }
+            });
+            
+            // Update document language
+            document.documentElement.lang = lang;
+            
+            // Update submit button text based on points
+            updateSubmitButtonText();
+        }
+
+        function updateSubmitButtonText() {
+            const submitBtn = document.getElementById('submitBtn');
+            if (points > 0) {
+                submitBtn.textContent = translations[currentLang].submit_btn_enabled;
+            } else {
+                submitBtn.textContent = translations[currentLang].submit_btn_disabled;
+            }
+        }
+
+        function detectLanguage() {
+            const savedLang = localStorage.getItem('favorSystemLanguage');
+            if (savedLang) {
+                return savedLang;
+            }
+            
+            const browserLang = navigator.language || navigator.userLanguage;
+            if (browserLang && browserLang.startsWith('en')) {
+                return 'en';
+            }
+            return 'es';
+        }
+
+        // ============================================
+        // VARIABLES GLOBALES Y FUNCIONES ORIGINALES
+        // ============================================
+        
+        let points = parseInt(localStorage.getItem('favorPoints')) || 0;
+        let adTimer = null;
+        let hasAcceptedCookies = localStorage.getItem('cookiesAccepted') === 'true';
+        let systemConfig = JSON.parse(localStorage.getItem('favorSystemConfig') || '{}');
+        let isSystemConfigured = !!(systemConfig.adminEmail);
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            // Detectar y aplicar idioma
+            const detectedLang = detectLanguage();
+            currentLang = detectedLang;
+            
+            // Actualizar botones de bandera
+            document.querySelectorAll('.flag-btn').forEach((btn, index) => {
+                btn.classList.remove('active');
+                if ((detectedLang === 'es' && index === 0) || (detectedLang === 'en' && index === 1)) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // Aplicar traducciones
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[detectedLang][key]) {
+                    const attr = element.getAttribute('data-i18n-attr');
+                    if (attr) {
+                        element.setAttribute(attr, translations[detectedLang][key]);
+                    } else if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                        element.placeholder = translations[detectedLang][key];
+                    } else {
+                        element.innerHTML = translations[detectedLang][key];
+                    }
+                }
+            });
+            
+            document.documentElement.lang = detectedLang;
+            
+            updatePointsDisplay();
+            generateDocNumber();
+
+            // Verificar configuración del sistema
+            checkSystemConfiguration();
+
+            // Configurar URL de retorno para FormSubmit
+            if (isSystemConfigured) {
+                const returnUrl = systemConfig.serverIp
+                    ? `http://${systemConfig.serverIp}:5501/Sistema_de_peticion_de_favores_fremium.html`
+                    : window.location.href;
+                document.getElementById('nextPageUrl').value = returnUrl;
+            }
+
+            // Mostrar lightbox de cookies si no ha aceptado
+            if (!hasAcceptedCookies) {
+                document.getElementById('cookieLightbox').classList.add('active');
+            }
+
+            // Verificar si tiene 0 puntos al cargar
+            checkZeroPoints();
+        });
+
+        // Verificar configuración del sistema
+        function checkSystemConfiguration() {
+            if (!isSystemConfigured) {
+                document.getElementById('notConfiguredWarning').style.display = 'block';
+            }
+        }
+
+        // Generar número de documento aleatorio
+        function generateDocNumber() {
+            const year = 2026;
+            const random = Math.floor(Math.random() * 99999).toString().padStart(5, '0');
+            const dept = ['RRHH', 'IT', 'FIN', 'OPS', 'ABS'][Math.floor(Math.random() * 5)];
+            document.getElementById('docNumber').textContent = `${year}-${dept}-${random}`;
+        }
+
+        // Actualizar visualización de puntos
+        function updatePointsDisplay() {
+            document.getElementById('pointsDisplay').textContent = points;
+            localStorage.setItem('favorPoints', points);
+
+            // Habilitar/deshabilitar botón de enviar
+            const submitBtn = document.getElementById('submitBtn');
+            if (points > 0) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = translations[currentLang].submit_btn_enabled;
+                document.getElementById('zeroPointsWarning').classList.remove('active');
+            } else {
+                submitBtn.disabled = true;
+                submitBtn.textContent = translations[currentLang].submit_btn_disabled;
+            }
+        }
+
+        // Verificar si tiene 0 puntos
+        function checkZeroPoints() {
+            if (points === 0) {
+                document.getElementById('zeroPointsWarning').classList.add('active');
+                setTimeout(() => {
+                    if (points === 0 && hasAcceptedCookies) {
+                        document.getElementById('noPointsLightbox').classList.add('active');
+                    }
+                }, 1000);
+            }
+        }
+
+        // Aceptar cookies
+        function acceptCookies() {
+            hasAcceptedCookies = true;
+            localStorage.setItem('cookiesAccepted', 'true');
+            document.getElementById('cookieLightbox').classList.remove('active');
+            checkZeroPoints();
+        }
+
+        // Abrir lightbox de publicidad
+        function openAdLightbox() {
+            document.getElementById('adLightbox').classList.add('active');
+            startAdTimer();
+        }
+
+        // Cerrar lightbox de publicidad
+        function closeAdLightbox() {
+            document.getElementById('adLightbox').classList.remove('active');
+            clearInterval(adTimer);
+        }
+
+        // Iniciar timer de publicidad
+        function startAdTimer() {
+            let seconds = 5;
+            document.getElementById('adTimer').textContent = seconds;
+            document.getElementById('timerText').textContent = seconds;
+
+            adTimer = setInterval(() => {
+                seconds--;
+                document.getElementById('adTimer').textContent = seconds;
+                document.getElementById('timerText').textContent = seconds;
+
+                if (seconds <= 0) {
+                    clearInterval(adTimer);
+                    points++;
+                    updatePointsDisplay();
+                    closeAdLightbox();
+
+                    // Mostrar mensaje de éxito
+                    setTimeout(() => {
+                        const msg = translations[currentLang].ad_congrats.replace('{points}', points);
+                        alert(msg);
+                    }, 300);
+                }
+            }, 1000);
+        }
+
+        // Cerrar lightbox de sin puntos y abrir publicidad
+        function closeNoPointsAndOpenAd() {
+            document.getElementById('noPointsLightbox').classList.remove('active');
+            openAdLightbox();
+        }
+
+        // Validar y preparar formulario
+        async function validateAndPrepareForm(event) {
+            event.preventDefault();
+
+            if (points <= 0) {
+                document.getElementById('noPointsLightbox').classList.add('active');
+                return false;
+            }
+
+            if (!isSystemConfigured) {
+                document.getElementById('notConfiguredWarning').style.display = 'block';
+                window.scrollTo(0, 0);
+                return false;
+            }
+
+            // Generar número de expediente
+            const expediente = 'EXP-' + Date.now() + '-' + Math.floor(Math.random() * 1000);
+            document.getElementById('expedienteNum').textContent = expediente;
+
+            // Descontar punto antes de enviar
+            points--;
+            updatePointsDisplay();
+
+            // Mostrar lightbox de "enviando"
+            showSendingLightbox();
+
+            // Recopilar datos del formulario
+            const formData = {
+                solicitante: document.getElementById('solicitante').value,
+                favor: document.getElementById('favor').value,
+                urgencia: document.getElementById('urgencia').options[document.getElementById('urgencia').selectedIndex].text,
+                _subject: 'Nueva solicitud de favor - Sistema Oficial 2026',
+                _next: systemConfig.serverIp
+                    ? `http://${systemConfig.serverIp}:5501/Sistema_de_peticion_de_favores_fremium.html`
+                    : window.location.href
+            };
+
+            try {
+                // Enviar a FormSubmit.co usando fetch
+                const response = await fetch(`https://formsubmit.co/ajax/${systemConfig.adminEmail}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                if (response.ok) {
+                    // Mostrar éxito
+                    hideSendingLightbox();
+                    document.getElementById('successLightbox').classList.add('active');
+                    document.getElementById('favorForm').reset();
+                } else {
+                    throw new Error('Error en el envío');
+                }
+            } catch (error) {
+                // Si fetch falla (CORS), abrir FormSubmit en nueva pestaña
+                hideSendingLightbox();
+                const form = document.getElementById('favorForm');
+                form.action = `https://formsubmit.co/${systemConfig.adminEmail}`;
+                form.target = '_blank';
+                form.submit();
+            }
+
+            return false;
+        }
+
+        // Cerrar lightbox de éxito
+        function closeSuccessLightbox() {
+            document.getElementById('successLightbox').classList.remove('active');
+
+            // Verificar si quedó sin puntos
+            if (points === 0) {
+                checkZeroPoints();
+            }
+
+            // Generar nuevo número de documento
+            generateDocNumber();
+        }
+
+        // Mostrar/ocultar lightbox de enviando
+        function showSendingLightbox() {
+            document.getElementById('sendingLightbox').classList.add('active');
+        }
+
+        function hideSendingLightbox() {
+            document.getElementById('sendingLightbox').classList.remove('active');
+        }
+
+        // Cerrar lightboxes al hacer clic fuera
+        document.querySelectorAll('.lightbox').forEach(lightbox => {
+            lightbox.addEventListener('click', function(e) {
+                if (e.target === this && this.id !== 'cookieLightbox' && this.id !== 'noPointsLightbox' && this.id !== 'adLightbox' && this.id !== 'sendingLightbox') {
+                    this.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

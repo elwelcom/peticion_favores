@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="title">Panel de Administración - Sistema de Favores</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;700&family=Courier+Prime:wght@400;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Text', serif;
+            background: linear-gradient(135deg, #e8e8e8 0%, #d0d0d0 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            border: 3px solid #2c3e50;
+            box-shadow: 0 0 30px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        .header {
+            background: #2c3e50;
+            color: #fff;
+            padding: 30px;
+            text-align: center;
+            border-bottom: 5px double #c0392b;
+        }
+
+        .header h1 {
+            font-size: 1.8em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+        }
+
+        .header .subtitle {
+            font-family: 'Courier Prime', monospace;
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        /* Language Selector */
+        .language-selector {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+            display: flex;
+            gap: 10px;
+            background: rgba(255,255,255,0.95);
+            padding: 8px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .flag-btn {
+            width: 40px;
+            height: 30px;
+            border: 2px solid transparent;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            overflow: hidden;
+            background: none;
+            padding: 0;
+        }
+        
+        .flag-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .flag-btn.active {
+            border-color: #2c3e50;
+            box-shadow: 0 0 8px rgba(44,62,80,0.5);
+        }
+        
+        .flag-btn svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .form-section {
+            padding: 40px;
+            background: #fafafa;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            padding: 20px;
+            border: 2px solid #bdc3c7;
+            background: #fff;
+            position: relative;
+        }
+
+        .form-group::before {
+            content: attr(data-section);
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: #fff;
+            padding: 0 10px;
+            font-size: 0.8em;
+            font-weight: bold;
+            color: #7f8c8d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 700;
+            color: #2c3e50;
+            font-size: 1.1em;
+        }
+
+        input[type="email"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #95a5a6;
+            font-family: 'Courier Prime', monospace;
+            font-size: 1em;
+            background: #f8f9fa;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #2c3e50;
+            background: #fff;
+        }
+
+        .info-box {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            padding: 15px;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+            color: #856404;
+        }
+
+        .tip-box {
+            background: #e8f4fd;
+            border: 2px solid #3498db;
+            padding: 15px;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+            color: #0c5460;
+        }
+
+        .tip-box strong {
+            color: #3498db;
+        }
+
+        .tip-box a {
+            color: #2980b9;
+            font-weight: bold;
+        }
+
+        .server-info {
+            background: #e8f8f5;
+            border: 2px solid #27ae60;
+            padding: 15px;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+        }
+
+        .server-info strong {
+            color: #27ae60;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: #27ae60;
+            color: #fff;
+            border: none;
+            font-size: 1.3em;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 3px solid #1e8449;
+        }
+
+        .submit-btn:hover {
+            background: #229954;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .link-section {
+            padding: 20px 40px;
+            background: #ecf0f1;
+            border-top: 2px solid #bdc3c7;
+            text-align: center;
+        }
+
+        .link-box {
+            background: #fff;
+            border: 2px dashed #95a5a6;
+            padding: 15px;
+            margin-top: 10px;
+            font-family: 'Courier Prime', monospace;
+            word-break: break-all;
+            font-size: 0.9em;
+        }
+
+        .copy-btn {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background: #3498db;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+
+        .copy-btn:hover {
+            background: #2980b9;
+        }
+
+        .success-message {
+            display: none;
+            background: #d4edda;
+            border: 2px solid #c3e6cb;
+            color: #155724;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .success-message.active {
+            display: block;
+        }
+
+        .current-config {
+            background: #e8f8f5;
+            border: 2px solid #27ae60;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .current-config.active {
+            display: block;
+        }
+
+        .footer-note {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.8em;
+            color: #7f8c8d;
+            border-top: 1px solid #bdc3c7;
+            font-family: 'Courier Prime', monospace;
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Selector -->
+    <div class="language-selector">
+        <button class="flag-btn active" onclick="changeLanguage('es')" title="Español">
+            <svg viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg">
+                <rect width="60" height="40" fill="#AA151B"/>
+                <rect y="10" width="60" height="20" fill="#F1BF00"/>
+                <rect y="30" width="60" height="10" fill="#AA151B"/>
+            </svg>
+        </button>
+        <button class="flag-btn" onclick="changeLanguage('en')" title="English">
+            <svg viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg">
+                <rect width="60" height="40" fill="#012169"/>
+                <path d="M0,0 L60,40 M60,0 L0,40" stroke="#fff" stroke-width="6"/>
+                <path d="M0,0 L60,40 M60,0 L0,40" stroke="#C8102E" stroke-width="4"/>
+                <path d="M30,0 L30,40 M0,20 L60,20" stroke="#fff" stroke-width="10"/>
+                <path d="M30,0 L30,40 M0,20 L60,20" stroke="#C8102E" stroke-width="6"/>
+            </svg>
+        </button>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <h1 data-i18n="header_title">Panel de Administración</h1>
+            <div class="subtitle" data-i18n="header_subtitle">Configuración del Sistema de Favores</div>
+        </header>
+
+        <section class="form-section">
+            <div class="success-message" id="successMessage">
+                <strong data-i18n="success_message">✓ Configuración guardada correctamente</strong><br>
+                <span data-i18n="success_email">El formulario está listo para enviar emails a:</span> <span id="savedEmail"></span>
+            </div>
+
+            <div class="current-config" id="currentConfig">
+                <strong data-i18n="current_config_title">Configuración actual:</strong><br>
+                <span data-i18n="current_email_label">Email:</span> <span id="currentEmail"></span><br>
+                <span data-i18n="current_ip_label">IP Servidor:</span> <span id="currentIp"></span><br>
+                <small data-i18n="current_config_note">Este email recibirá todas las solicitudes de favor</small>
+            </div>
+
+            <div class="info-box">
+                <strong data-i18n="info_title">📧 Configuración del Sistema</strong><br>
+                <span data-i18n="info_text">El sistema ha detectado automáticamente la IP de este servidor. Solo necesitas introducir tu email.</span>
+            </div>
+
+            <div class="server-info" id="serverInfo" style="display: none;">
+                <strong data-i18n="server_detected">✓ Servidor detectado:</strong><br>
+                IP: <span id="detectedIp"></span><br>
+                <small data-i18n="server_ready">Este equipo está listo para compartir en la red</small>
+            </div>
+
+            <div class="tip-box">
+                <strong data-i18n="tip_title">💡 Recomendación importante:</strong><br>
+                <span data-i18n="tip_recommendation">Antes de compartir el enlace con tus compañeros, envíate una solicitud de prueba desde el formulario.</span><br><br>
+                <strong data-i18n="tip_why">¿Por qué?</strong> <span data-i18n="tip_explanation">La primera vez que alguien envíe un formulario, FormSubmit.co enviará un email de confirmación a tu correo. Necesitas hacer clic en ese enlace para activar el servicio.</span><br><br>
+                <strong data-i18n="tip_steps_title">Pasos:</strong><br>
+                <span data-i18n="tip_step1">1. Copia el enlace de abajo</span><br>
+                <span data-i18n="tip_step2">2. Ábrelo en otra pestaña</span><br>
+                <span data-i18n="tip_step3">3. Envía una solicitud de prueba</span><br>
+                <span data-i18n="tip_step4">4. Revisa tu email y confirma</span><br>
+                <span data-i18n="tip_step5">5. ¡Ahora sí puedes compartir el enlace!</span>
+            </div>
+
+            <form id="adminForm" onsubmit="saveConfig(event)">
+                <div class="form-group" data-section="Email Destinatario" data-i18n-attr="data-section" data-i18n="form_section_email">
+                    <label for="adminEmail" data-i18n="label_email">Email donde recibirás las solicitudes:</label>
+                    <input type="email" id="adminEmail" name="adminEmail" required placeholder="tuemail@ejemplo.com" data-i18n-attr="placeholder" data-i18n="placeholder_email">
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn" data-i18n="save_button">
+                    Guardar Configuración
+                </button>
+            </form>
+        </section>
+
+        <section class="link-section" id="linkSection" style="display: none;">
+            <h3 data-i18n="link_title">🔗 Enlace para compartir</h3>
+            <p data-i18n="link_description">Comparte este enlace con quienes quieras que puedan pedirte favores:</p>
+            <div class="link-box" id="shareLink">
+                <!-- Se genera automáticamente -->
+            </div>
+            <button class="copy-btn" onclick="copyLink()" data-i18n="copy_button">Copiar Enlace</button>
+
+            <div class="tip-box" style="margin-top: 20px; text-align: left;">
+                <strong data-i18n="link_note_title">💡 Nota importante:</strong> <span data-i18n="link_note_text">Si es la primera vez que usas el sistema,</span><br>
+                <span data-i18n="link_note_text2">envía una solicitud de prueba primero para confirmar tu email con FormSubmit.co.</span><br>
+                <a href="#" onclick="openTestEmail()" data-i18n="send_test_email">Enviar email de prueba</a>
+            </div>
+        </section>
+
+        <div class="footer-note">
+            <span data-i18n="footer_line1">Sistema Oficial de Favores 2026™ | Panel de Administración</span><br>
+            <span data-i18n="footer_line2">© 2026 Ministerio de Favores Absurdos</span>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // SISTEMA DE INTERNACIONALIZACIÓN (i18n)
+        // ============================================
+        
+        const translations = {
+            es: {
+                title: "Panel de Administración - Sistema de Favores",
+                header_title: "Panel de Administración",
+                header_subtitle: "Configuración del Sistema de Favores",
+                success_message: "✓ Configuración guardada correctamente",
+                success_email: "El formulario está listo para enviar emails a:",
+                current_config_title: "Configuración actual:",
+                current_email_label: "Email:",
+                current_ip_label: "IP Servidor:",
+                current_config_note: "Este email recibirá todas las solicitudes de favor",
+                info_title: "📧 Configuración del Sistema",
+                info_text: "El sistema ha detectado automáticamente la IP de este servidor. Solo necesitas introducir tu email.",
+                server_detected: "✓ Servidor detectado:",
+                server_ready: "Este equipo está listo para compartir en la red",
+                tip_title: "💡 Recomendación importante:",
+                tip_recommendation: "Antes de compartir el enlace con tus compañeros, envíate una solicitud de prueba desde el formulario.",
+                tip_why: "¿Por qué?",
+                tip_explanation: "La primera vez que alguien envíe un formulario, FormSubmit.co enviará un email de confirmación a tu correo. Necesitas hacer clic en ese enlace para activar el servicio.",
+                tip_steps_title: "Pasos:",
+                tip_step1: "1. Copia el enlace de abajo",
+                tip_step2: "2. Ábrelo en otra pestaña",
+                tip_step3: "3. Envía una solicitud de prueba",
+                tip_step4: "4. Revisa tu email y confirma",
+                tip_step5: "5. ¡Ahora sí puedes compartir el enlace!",
+                form_section_email: "Email Destinatario",
+                label_email: "Email donde recibirás las solicitudes:",
+                placeholder_email: "tuemail@ejemplo.com",
+                save_button: "Guardar Configuración",
+                link_title: "🔗 Enlace para compartir",
+                link_description: "Comparte este enlace con quienes quieras que puedan pedirte favores:",
+                copy_button: "Copiar Enlace",
+                link_note_title: "💡 Nota importante:",
+                link_note_text: "Si es la primera vez que usas el sistema,",
+                link_note_text2: "envía una solicitud de prueba primero para confirmar tu email con FormSubmit.co.",
+                send_test_email: "Enviar email de prueba",
+                footer_line1: "Sistema Oficial de Favores 2026™ | Panel de Administración",
+                footer_line2: "© 2026 Ministerio de Favores Absurdos",
+                error_no_ip: "Error: No se pudo detectar la IP del servidor. Asegúrate de estar accediendo desde el servidor.",
+                link_copied: "¡Enlace copiado al portapapeles!",
+                link_copy_manual: "Texto seleccionado. Presiona Ctrl+C para copiarlo.",
+                reminder_text: "💡 Recuerda: Antes de compartir el enlace, envía una solicitud de prueba para confirmar tu email con FormSubmit.co.",
+                no_url_error: "No se pudo obtener la URL del formulario"
+            },
+            en: {
+                title: "Admin Panel - Favor System",
+                header_title: "Administration Panel",
+                header_subtitle: "Favor System Configuration",
+                success_message: "✓ Configuration saved successfully",
+                success_email: "The form is ready to send emails to:",
+                current_config_title: "Current configuration:",
+                current_email_label: "Email:",
+                current_ip_label: "Server IP:",
+                current_config_note: "This email will receive all favor requests",
+                info_title: "📧 System Configuration",
+                info_text: "The system has automatically detected this server's IP. You only need to enter your email.",
+                server_detected: "✓ Server detected:",
+                server_ready: "This computer is ready to share on the network",
+                tip_title: "💡 Important Recommendation:",
+                tip_recommendation: "Before sharing the link with your colleagues, send yourself a test request from the form.",
+                tip_why: "Why?",
+                tip_explanation: "The first time someone submits a form, FormSubmit.co will send a confirmation email to your address. You need to click that link to activate the service.",
+                tip_steps_title: "Steps:",
+                tip_step1: "1. Copy the link below",
+                tip_step2: "2. Open it in another tab",
+                tip_step3: "3. Send a test request",
+                tip_step4: "4. Check your email and confirm",
+                tip_step5: "5. Now you can share the link!",
+                form_section_email: "Recipient Email",
+                label_email: "Email where you will receive requests:",
+                placeholder_email: "youremail@example.com",
+                save_button: "Save Configuration",
+                link_title: "🔗 Link to share",
+                link_description: "Share this link with anyone you want to be able to ask you for favors:",
+                copy_button: "Copy Link",
+                link_note_title: "💡 Important note:",
+                link_note_text: "If this is the first time using the system,",
+                link_note_text2: "send a test request first to confirm your email with FormSubmit.co.",
+                send_test_email: "Send test email",
+                footer_line1: "Official Favor System 2026™ | Admin Panel",
+                footer_line2: "© 2026 Ministry of Absurd Favors",
+                error_no_ip: "Error: Could not detect server IP. Make sure you are accessing from the server.",
+                link_copied: "Link copied to clipboard!",
+                link_copy_manual: "Text selected. Press Ctrl+C to copy it.",
+                reminder_text: "💡 Remember: Before sharing the link, send a test request to confirm your email with FormSubmit.co.",
+                no_url_error: "Could not get the form URL"
+            }
+        };
+
+        let currentLang = localStorage.getItem('favorSystemLanguage') || 'es';
+
+        function changeLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('favorSystemLanguage', lang);
+            
+            // Update flag buttons
+            document.querySelectorAll('.flag-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.closest('.flag-btn').classList.add('active');
+            
+            // Update all elements with data-i18n attribute
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    const attr = element.getAttribute('data-i18n-attr');
+                    if (attr) {
+                        element.setAttribute(attr, translations[lang][key]);
+                    } else if (element.tagName === 'INPUT') {
+                        element.placeholder = translations[lang][key];
+                    } else {
+                        element.innerHTML = translations[lang][key];
+                    }
+                }
+            });
+            
+            // Update document language
+            document.documentElement.lang = lang;
+        }
+
+        function detectLanguage() {
+            const savedLang = localStorage.getItem('favorSystemLanguage');
+            if (savedLang) {
+                return savedLang;
+            }
+            
+            const browserLang = navigator.language || navigator.userLanguage;
+            if (browserLang && browserLang.startsWith('en')) {
+                return 'en';
+            }
+            return 'es';
+        }
+
+        // ============================================
+        // FUNCIONES ORIGINALES DEL ADMIN
+        // ============================================
+
+        let detectedServerIP = null;
+
+        // Cargar configuración existente y detectar IP automáticamente
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Detectar y aplicar idioma
+            const detectedLang = detectLanguage();
+            currentLang = detectedLang;
+            
+            // Actualizar botones de bandera
+            document.querySelectorAll('.flag-btn').forEach((btn, index) => {
+                btn.classList.remove('active');
+                if ((detectedLang === 'es' && index === 0) || (detectedLang === 'en' && index === 1)) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // Aplicar traducciones
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[detectedLang][key]) {
+                    const attr = element.getAttribute('data-i18n-attr');
+                    if (attr) {
+                        element.setAttribute(attr, translations[detectedLang][key]);
+                    } else if (element.tagName === 'INPUT') {
+                        element.placeholder = translations[detectedLang][key];
+                    } else {
+                        element.innerHTML = translations[detectedLang][key];
+                    }
+                }
+            });
+            
+            document.documentElement.lang = detectedLang;
+            
+            const config = JSON.parse(localStorage.getItem('favorSystemConfig') || '{}');
+
+            // Cargar email si existe
+            if (config.adminEmail) {
+                document.getElementById('adminEmail').value = config.adminEmail;
+                document.getElementById('currentEmail').textContent = config.adminEmail;
+            }
+
+            // Mostrar configuración actual
+            if (config.adminEmail || config.serverIp) {
+                document.getElementById('currentConfig').classList.add('active');
+                if (config.serverIp) {
+                    document.getElementById('currentIp').textContent = config.serverIp;
+                }
+            }
+
+            // Detectar IP del servidor automáticamente
+            await detectAndSaveServerIP();
+        });
+
+        // Detectar IP del servidor automáticamente y guardar todo
+        async function detectAndSaveServerIP() {
+            try {
+                const response = await fetch('/api/server-info');
+                if (response.ok) {
+                    const data = await response.json();
+                    detectedServerIP = data.bestIP;
+
+                    if (detectedServerIP && detectedServerIP !== 'localhost') {
+                        const config = JSON.parse(localStorage.getItem('favorSystemConfig') || '{}');
+                        config.serverIp = detectedServerIP;
+
+                        // Mostrar info del servidor
+                        document.getElementById('detectedIp').textContent = detectedServerIP;
+                        document.getElementById('serverInfo').style.display = 'block';
+                        document.getElementById('currentIp').textContent = detectedServerIP;
+
+                        // Si ya hay email configurado, guardar todo automáticamente
+                        if (config.adminEmail && config.adminEmail.trim() !== '') {
+                            localStorage.setItem('favorSystemConfig', JSON.stringify(config));
+                            console.log('IP detectada y configuracion guardada automaticamente');
+
+                            // Mostrar confirmación automática
+                            document.getElementById('savedEmail').textContent = config.adminEmail;
+                            document.getElementById('successMessage').classList.add('active');
+                            document.getElementById('currentConfig').classList.add('active');
+
+                            // Generar enlace
+                            updateShareLink();
+
+                            // Ocultar mensaje después de 4 segundos
+                            setTimeout(() => {
+                                document.getElementById('successMessage').classList.remove('active');
+                            }, 4000);
+
+                            return; // Salir, todo listo
+                        }
+
+                        // Si no hay email, solo guardar la IP
+                        localStorage.setItem('favorSystemConfig', JSON.stringify(config));
+                        console.log('IP del servidor detectada automaticamente:', detectedServerIP);
+                    }
+                }
+            } catch (error) {
+                console.log('No se pudo detectar la IP automaticamente:', error);
+
+                const urlIP = extractIpFromUrl(window.location.href);
+                if (urlIP && urlIP !== 'localhost' && urlIP !== '127.0.0.1') {
+                    detectedServerIP = urlIP;
+
+                    const config = JSON.parse(localStorage.getItem('favorSystemConfig') || '{}');
+                    config.serverIp = detectedServerIP;
+
+                    document.getElementById('detectedIp').textContent = detectedServerIP;
+                    document.getElementById('serverInfo').style.display = 'block';
+                    document.getElementById('currentIp').textContent = detectedServerIP;
+
+                    if (config.adminEmail && config.adminEmail.trim() !== '') {
+                        localStorage.setItem('favorSystemConfig', JSON.stringify(config));
+                        console.log('IP detectada (fallback) y configuracion guardada automaticamente');
+
+                        document.getElementById('savedEmail').textContent = config.adminEmail;
+                        document.getElementById('successMessage').classList.add('active');
+                        document.getElementById('currentConfig').classList.add('active');
+                        updateShareLink();
+
+                        setTimeout(() => {
+                            document.getElementById('successMessage').classList.remove('active');
+                        }, 4000);
+                    } else {
+                        localStorage.setItem('favorSystemConfig', JSON.stringify(config));
+                    }
+                }
+            }
+        }
+
+        // Extraer IP de una URL (fallback)
+        function extractIpFromUrl(url) {
+            try {
+                const urlObj = new URL(url);
+                const hostname = urlObj.hostname;
+                if (/(\d{1,3}\.){3}\d{1,3}$/.test(hostname)) {
+                    return hostname;
+                }
+                return null;
+            } catch (e) {
+                return null;
+            }
+        }
+
+        function saveConfig(event) {
+            event.preventDefault();
+
+            const email = document.getElementById('adminEmail').value;
+
+            // Obtener la IP guardada o detectada
+            const config = JSON.parse(localStorage.getItem('favorSystemConfig') || '{}');
+            config.adminEmail = email;
+
+            if (!config.serverIp) {
+                alert(translations[currentLang].error_no_ip);
+                return;
+            }
+
+            localStorage.setItem('favorSystemConfig', JSON.stringify(config));
+
+            // Mostrar mensaje de éxito
+            document.getElementById('savedEmail').textContent = email;
+            document.getElementById('successMessage').classList.add('active');
+            document.getElementById('currentEmail').textContent = email;
+            document.getElementById('currentConfig').classList.add('active');
+
+            // Añadir recordatorio sobre email de prueba
+            showTestEmailReminder();
+
+            // Actualizar enlace
+            updateShareLink();
+
+            // Ocultar mensaje después de 3 segundos
+            setTimeout(() => {
+                document.getElementById('successMessage').classList.remove('active');
+            }, 3000);
+        }
+
+        function updateShareLink() {
+            const config = JSON.parse(localStorage.getItem('favorSystemConfig') || '{}');
+
+            if (config.adminEmail && config.serverIp) {
+                const formUrl = `http://${config.serverIp}:5501/Sistema_de_peticion_de_favores_fremium.html`;
+
+                document.getElementById('shareLink').textContent = formUrl;
+                document.getElementById('linkSection').style.display = 'block';
+            }
+        }
+
+        function copyLink() {
+            const linkText = document.getElementById('shareLink').textContent;
+
+            const tempInput = document.createElement('input');
+            tempInput.value = linkText;
+            tempInput.style.position = 'fixed';
+            tempInput.style.left = '-9999px';
+            document.body.appendChild(tempInput);
+
+            tempInput.select();
+            tempInput.setSelectionRange(0, 99999);
+
+            try {
+                document.execCommand('copy');
+                alert(translations[currentLang].link_copied);
+            } catch (err) {
+                const linkBox = document.getElementById('shareLink');
+                const range = document.createRange();
+                range.selectNode(linkBox);
+                window.getSelection().removeAllRanges();
+                window.getSelection().addRange(range);
+                alert(translations[currentLang].link_copy_manual);
+            }
+
+            document.body.removeChild(tempInput);
+        }
+
+        function openTestEmail() {
+            const config = JSON.parse(localStorage.getItem('favorSystemConfig') || '{}');
+            if (config.serverIp) {
+                const testUrl = `http://${config.serverIp}:5501/Sistema_de_peticion_de_favores_fremium.html`;
+                window.open(testUrl, '_blank');
+            } else {
+                alert(translations[currentLang].no_url_error);
+            }
+        }
+
+        function showTestEmailReminder() {
+            const reminder = document.createElement('div');
+            reminder.className = 'tip-box';
+            reminder.style.marginTop = '15px';
+            reminder.innerHTML = translations[currentLang].reminder_text;
+            reminder.style.display = 'block';
+
+            const successMsg = document.getElementById('successMessage');
+            successMsg.appendChild(reminder);
+
+            setTimeout(() => {
+                if (reminder.parentNode) {
+                    reminder.remove();
+                }
+            }, 10000);
+        }
+    </script>
+</body>
+</html>
